@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.ScreenUtils
 import com.cadena.ragnarok.Main
 
@@ -19,6 +22,8 @@ class GameScreen(var game: Main) : Screen {
     lateinit var poring : Sprite
     lateinit var atlas: TextureAtlas
 
+    lateinit var idleAnimation: Animation<TextureRegion>
+    var stateTime : Float = 0f
 
     init {
         atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
@@ -29,6 +34,10 @@ class GameScreen(var game: Main) : Screen {
         poring = Sprite(atlas.findRegion("poring/idle"))
         poring.setSize(1.3f, 1f)
         poring.setPosition(14f,0f)
+
+        idleAnimation = Animation(1/8f, atlas.findRegions("poring/idle"), PlayMode.LOOP)
+
+
     }
 
     override fun render(delta: Float) {
@@ -66,7 +75,11 @@ class GameScreen(var game: Main) : Screen {
         batch.begin()
 
         novice_male.draw(batch)
-        poring.draw(batch)
+        //poring.draw(batch)
+
+        stateTime += Gdx.graphics.deltaTime
+        val currentFrame = idleAnimation.getKeyFrame(stateTime, true)
+        batch.draw(currentFrame, 1f, 1f, 1f, 1f)
 
         batch.end()
     }

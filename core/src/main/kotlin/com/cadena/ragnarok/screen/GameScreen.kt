@@ -24,10 +24,8 @@ class GameScreen(var game: Main) : Screen {
     lateinit var poring : Sprite
     lateinit var atlas: TextureAtlas
 
-    lateinit var animatePoring: AnimationSystem
-    lateinit var animateNovie: AnimationSystem
-
     lateinit var poringEntity: GameEntity
+    lateinit var noviceEntity: GameEntity
 
     init {
         atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
@@ -42,9 +40,11 @@ class GameScreen(var game: Main) : Screen {
         //animatePoring = AnimationSystem(AnimationUnit.poring, AnimationType.idle)
         //animateNovie = AnimationSystem(AnimationUnit.novice_male, AnimationType.walk_down)
 
-        poringEntity = Character(1f, 1f, 1f, 1f, AnimationUnit.poring, AnimationType.idle)
+        poringEntity = Character(5f, 1f, 1f, 1f, AnimationUnit.poring, AnimationType.idle)
         poringEntity.setSpriteBatch(batch)
 
+        noviceEntity = Character(1f, 1f, 1f, 1.5f, AnimationUnit.novice_male, AnimationType.walk_down)
+        noviceEntity.setSpriteBatch(batch)
 
     }
 
@@ -61,18 +61,22 @@ class GameScreen(var game: Main) : Screen {
     }
 
     private fun input(delta: Float) {
-        val speed = 4f
+        val speed = 10f
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            novice_male.translateX(+speed*delta)
+            //novice_male.translateX(+speed*delta)
+            noviceEntity.updatePosition(+speed*delta, 0f)
         }
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            novice_male.translateX(-speed*delta)
+            //novice_male.translateX(-speed*delta)
+            noviceEntity.updatePosition(-speed*delta, 0f)
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            novice_male.translateY(+speed*delta)
+            //novice_male.translateY(+speed*delta)
+            noviceEntity.updatePosition(0f, +speed*delta)
         }
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            novice_male.translateY(-speed*delta)
+            //novice_male.translateY(-speed*delta)
+            noviceEntity.updatePosition(0f, -speed*delta)
         }
     }
 
@@ -83,6 +87,7 @@ class GameScreen(var game: Main) : Screen {
         batch.begin()
 
         poringEntity.draw()
+        noviceEntity.draw()
 
         batch.end()
     }

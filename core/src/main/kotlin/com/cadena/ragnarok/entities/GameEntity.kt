@@ -17,6 +17,11 @@ abstract class GameEntity(
     var animationSystem: AnimationSystem = AnimationSystem(animationUnit, animationType)
     lateinit var batch: SpriteBatch
 
+    init {
+        animationSystem.setPosition(posX, posY)
+        animationSystem.setSize(width, height)
+    }
+
     fun draw() {
         animationSystem.draw()
     }
@@ -36,7 +41,8 @@ abstract class GameEntity(
     }
 
     fun updatePosition(posX: Float, posY: Float) {
-        this.posX = posX
-        this.posY = posY
+        this.posX += posX
+        this.posY += posY
+        animationSystem.updatePosition(posX, posY)
     }
 }

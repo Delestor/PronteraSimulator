@@ -4,15 +4,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.Animation
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.ScreenUtils
 import com.cadena.ragnarok.Main
 import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
+import com.cadena.ragnarok.entities.Character
+import com.cadena.ragnarok.entities.GameEntity
 import com.cadena.ragnarok.system.AnimationSystem
 
 class GameScreen(var game: Main) : Screen {
@@ -28,6 +27,8 @@ class GameScreen(var game: Main) : Screen {
     lateinit var animatePoring: AnimationSystem
     lateinit var animateNovie: AnimationSystem
 
+    lateinit var poringEntity: GameEntity
+
     init {
         atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
         novice_male = Sprite(atlas.findRegion("novice_male/idle"))
@@ -38,8 +39,11 @@ class GameScreen(var game: Main) : Screen {
         poring.setSize(1.3f, 1f)
         poring.setPosition(14f,0f)
 
-        animatePoring = AnimationSystem(AnimationUnit.poring, AnimationType.idle)
-        animateNovie = AnimationSystem(AnimationUnit.novice_male, AnimationType.walk_down)
+        //animatePoring = AnimationSystem(AnimationUnit.poring, AnimationType.idle)
+        //animateNovie = AnimationSystem(AnimationUnit.novice_male, AnimationType.walk_down)
+
+        poringEntity = Character(1f, 1f, 1f, 1f, AnimationUnit.poring, AnimationType.idle)
+        poringEntity.setSpriteBatch(batch)
 
 
     }
@@ -78,9 +82,7 @@ class GameScreen(var game: Main) : Screen {
         batch.setProjectionMatrix(viewport.camera.combined)//Esta instrucción se ha de llamar después del viewport.apply()
         batch.begin()
 
-        //novice_male.draw(batch)
-        animatePoring.draw(batch)
-        animateNovie.draw(batch)
+        poringEntity.draw()
 
         batch.end()
     }

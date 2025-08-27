@@ -6,23 +6,37 @@ import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.system.AnimationSystem
 
 abstract class GameEntity(
-    open var posX : Long,
-    open var posY : Long,
-    open var animationUnit: AnimationUnit,
-    open var animationType: AnimationType,
-    open var batch: SpriteBatch) {
+    var posX: Float,
+    var posY: Float,
+    var width: Float,
+    var height: Float,
+    var animationUnit: AnimationUnit,
+    var animationType: AnimationType
+) {
 
     var animationSystem: AnimationSystem = AnimationSystem(animationUnit, animationType)
+    lateinit var batch: SpriteBatch
 
-    init {
-        animationSystem.draw(batch)
+    fun draw() {
+        animationSystem.draw()
     }
 
-    fun setPosition() {
-        TODO("Se ha de asignar la posicion inicial para la Entity")
+    fun setSpriteBatch(batch: SpriteBatch) {
+        animationSystem.setSpriteBatch(batch)
     }
 
-    fun updatePosition(){
-        TODO("Se ha de poder actualziar la posición de la Entity")
+    fun setSize(width: Float, height: Float) {
+        this.width = width
+        this.height = height
+    }
+
+    fun setPosition(posX: Float, posY: Float) {
+        this.posX = posX
+        this.posY = posY
+    }
+
+    fun updatePosition(posX: Float, posY: Float) {
+        this.posX = posX
+        this.posY = posY
     }
 }

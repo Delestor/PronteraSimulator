@@ -14,13 +14,18 @@ class AnimationSystem(var unit: AnimationUnit, var type: AnimationType) {
     lateinit var atlas: TextureAtlas
     lateinit var idleAnimation: Animation<TextureRegion>
     var stateTime : Float = 0f
+    lateinit var batch: SpriteBatch
 
     init {
         atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
         idleAnimation = Animation(1/8f, atlas.findRegions("${unit.toString()}/${type.toString()}"), PlayMode.LOOP)
     }
 
-    fun draw(batch: SpriteBatch){
+    fun setSpriteBatch(batch: SpriteBatch) {
+        this.batch = batch
+    }
+
+    fun draw(){
         stateTime += Gdx.graphics.deltaTime
         val currentFrame = idleAnimation.getKeyFrame(stateTime, true)
         batch.draw(currentFrame, 1f, 1f, 1f, 1f)

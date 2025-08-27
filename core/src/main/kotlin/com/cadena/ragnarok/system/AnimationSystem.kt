@@ -8,16 +8,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
+import com.cadena.ragnarok.component.PositionComponent
 
-class AnimationSystem(var unit: AnimationUnit, var type: AnimationType) {
+class AnimationSystem(var unit: AnimationUnit, var type: AnimationType, var positionComponent: PositionComponent = PositionComponent(0f, 0f)) {
 
     lateinit var atlas: TextureAtlas
     lateinit var idleAnimation: Animation<TextureRegion>
     var stateTime : Float = 0f
     lateinit var batch: SpriteBatch
 
-    var posX: Float = 1f
-    var posY: Float = 1f
+    var position : PositionComponent = positionComponent
     var width: Float = 1f
     var height: Float = 1f
 
@@ -31,13 +31,13 @@ class AnimationSystem(var unit: AnimationUnit, var type: AnimationType) {
     }
 
     fun setPosition(posX: Float, posY: Float){
-        this.posX = posX
-        this.posY = posY
+        position.posX = posX
+        position.posY = posY
     }
 
     fun updatePosition(posX: Float, posY: Float){
-        this.posX += posX
-        this.posY += posY
+        position.posX += posX
+        position.posY += posY
     }
 
     fun setSize(width: Float, height: Float){
@@ -48,6 +48,6 @@ class AnimationSystem(var unit: AnimationUnit, var type: AnimationType) {
     fun draw(){
         stateTime += Gdx.graphics.deltaTime
         val currentFrame = idleAnimation.getKeyFrame(stateTime, true)
-        batch.draw(currentFrame, posX, posY, width, height)
+        batch.draw(currentFrame, position.posX, position.posY, width, height)
     }
 }

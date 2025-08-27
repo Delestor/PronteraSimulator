@@ -31,3 +31,14 @@ Useful Gradle tasks and flags:
 
 Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
 For example, `core:clean` removes `build` folder only from the `core` project.
+
+
+## Documentation
+
+### Game Entity
+
+https://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/
+
+### I highly recommend every person read through this no matter what. It goes through evolution of the basic design of asteroids with OOP -> OOP with composition -> ECS. VERY easy to follow since it is detailed and explained in a beginner friendly manner.
+
+https://www.richardlord.net/blog/ecs/what-is-an-entity-framework

@@ -42,3 +42,6 @@ https://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/
 ### I highly recommend every person read through this no matter what. It goes through evolution of the basic design of asteroids with OOP -> OOP with composition -> ECS. VERY easy to follow since it is detailed and explained in a beginner friendly manner.
 
 https://www.richardlord.net/blog/ecs/what-is-an-entity-framework
+
+https://www.reddit.com/r/gamedev/comments/18od4yw/what_are_your_thoughts_on_entity_component/
+

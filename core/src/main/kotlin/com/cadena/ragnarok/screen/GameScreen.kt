@@ -3,6 +3,11 @@ package com.cadena.ragnarok.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader
+import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TmxMapLoader
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.ScreenUtils
 import com.cadena.ragnarok.Main
@@ -22,6 +27,10 @@ class GameScreen(var game: Main) : Screen {
     var poringEntity: Enemy
     var poringList = mutableListOf<Enemy>()
     var noviceEntity: PlayableCharacter
+
+    private lateinit var map: TiledMap
+    private lateinit var renderer: OrthogonalTiledMapRenderer
+    private lateinit var camera: OrthographicCamera
 
     init {
 
@@ -44,6 +53,17 @@ class GameScreen(var game: Main) : Screen {
             SizeComponent(1f, 1.5f)
         )
         noviceEntity.setSpriteBatch(batch)
+
+        // Cargar el mapa TMX usando AtlasTmxMapLoader (para usar el atlas)
+        map = TmxMapLoader().load("map/map1.tmx")
+
+        // Crear el renderer para renderizar el mapa
+        renderer = OrthogonalTiledMapRenderer(map)
+
+        // Configurar la cámara
+        camera = OrthographicCamera()
+        camera.setToOrtho(false, 800f, 480f) // Ajusta al tamaño de tu juego
+        camera.update()
 
     }
 
@@ -68,6 +88,9 @@ class GameScreen(var game: Main) : Screen {
         ScreenUtils.clear(Color.DARK_GRAY)
         viewport.apply()
         batch.setProjectionMatrix(viewport.camera.combined)//Esta instrucción se ha de llamar después del viewport.apply()
+
+        drawMap()
+
         batch.begin()
 
         poringList.forEach { poring ->
@@ -77,6 +100,12 @@ class GameScreen(var game: Main) : Screen {
         noviceEntity.draw()
 
         batch.end()
+    }
+
+    private fun drawMap() {
+        camera.update()
+        renderer.setView(camera)
+        renderer.render()
     }
 
     override fun show() {
@@ -99,6 +128,8 @@ class GameScreen(var game: Main) : Screen {
     override fun dispose() {
         batch.dispose()
         //atlas.dispose()
+        renderer.dispose()
+        map.dispose()
     }
 
 }

@@ -9,45 +9,47 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
+import com.cadena.ragnarok.component.SizeComponent
 
-class AnimationSystem(var unit: AnimationUnit, var type: AnimationType, var positionComponent: PositionComponent = PositionComponent(0f, 0f)) {
+class AnimationSystem(
+    var unit: AnimationUnit,
+    var type: AnimationType,
+    var positionComponent: PositionComponent,
+    var sizeComponent: SizeComponent
+) {
 
-    lateinit var atlas: TextureAtlas
-    lateinit var idleAnimation: Animation<TextureRegion>
-    var stateTime : Float = 0f
-    lateinit var batch: SpriteBatch
+    var atlas: TextureAtlas = TextureAtlas("graphics/ragnarokObjects.atlas")
+    private var animation: Animation<TextureRegion> =
+        Animation(1 / 8f, atlas.findRegions("${unit.toString()}/${type.toString()}"), PlayMode.LOOP)
 
-    var position : PositionComponent = positionComponent
-    var width: Float = 1f
-    var height: Float = 1f
+    private var stateTime: Float = 0f
+    private lateinit var batch: SpriteBatch
 
-    init {
-        atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
-        idleAnimation = Animation(1/8f, atlas.findRegions("${unit.toString()}/${type.toString()}"), PlayMode.LOOP)
-    }
+    var position: PositionComponent = positionComponent
+    var size: SizeComponent = sizeComponent
 
     fun setSpriteBatch(batch: SpriteBatch) {
         this.batch = batch
     }
 
-    fun setPosition(posX: Float, posY: Float){
+    fun setPosition(posX: Float, posY: Float) {
         position.posX = posX
         position.posY = posY
     }
 
-    fun updatePosition(posX: Float, posY: Float){
+    fun updatePosition(posX: Float, posY: Float) {
         position.posX += posX
         position.posY += posY
     }
 
-    fun setSize(width: Float, height: Float){
-        this.width = width
-        this.height = height
+    fun setSize(width: Float, height: Float) {
+        size.width = width
+        size.height = height
     }
 
-    fun draw(){
+    fun draw() {
         stateTime += Gdx.graphics.deltaTime
-        val currentFrame = idleAnimation.getKeyFrame(stateTime, true)
-        batch.draw(currentFrame, position.posX, position.posY, width, height)
+        val currentFrame = animation.getKeyFrame(stateTime, true)
+        batch.draw(currentFrame, position.posX, position.posY, size.width, size.height)
     }
 }

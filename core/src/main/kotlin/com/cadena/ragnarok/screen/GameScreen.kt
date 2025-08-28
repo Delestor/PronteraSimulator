@@ -11,7 +11,9 @@ import com.cadena.ragnarok.Main
 import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
+import com.cadena.ragnarok.component.SizeComponent
 import com.cadena.ragnarok.entities.Character
+import com.cadena.ragnarok.entities.Enemy
 import com.cadena.ragnarok.entities.GameEntity
 import com.cadena.ragnarok.system.AnimationSystem
 
@@ -41,10 +43,10 @@ class GameScreen(var game: Main) : Screen {
         //animatePoring = AnimationSystem(AnimationUnit.poring, AnimationType.idle)
         //animateNovie = AnimationSystem(AnimationUnit.novice_male, AnimationType.walk_down)
 
-        poringEntity = Character(1f, 1f, AnimationUnit.poring, AnimationType.idle, PositionComponent(1f, 1f))
+        poringEntity = Enemy(AnimationUnit.poring, AnimationType.idle, PositionComponent(1f, 1f), SizeComponent(1f, 1f))
         poringEntity.setSpriteBatch(batch)
 
-        noviceEntity = Character(1f, 1.5f, AnimationUnit.novice_male, AnimationType.walk_down, PositionComponent(1f, 3f))
+        noviceEntity = Character(AnimationUnit.novice_male, AnimationType.walk_down, PositionComponent(1f, 3f), SizeComponent(1f, 1.5f))
         noviceEntity.setSpriteBatch(batch)
 
     }

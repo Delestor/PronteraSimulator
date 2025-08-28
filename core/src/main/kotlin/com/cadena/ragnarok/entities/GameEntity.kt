@@ -4,23 +4,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
+import com.cadena.ragnarok.component.SizeComponent
 import com.cadena.ragnarok.system.AnimationSystem
 
 abstract class GameEntity(
-    var width: Float,
-    var height: Float,
-    var animationUnit: AnimationUnit,
-    var animationType: AnimationType,
-    var positionComponent: PositionComponent = PositionComponent(0f, 0f)
+    animationUnit: AnimationUnit,
+    animationType: AnimationType,
+    positionComponent: PositionComponent,
+    private var sizeComponent: SizeComponent
 ) {
 
-    var animationSystem: AnimationSystem = AnimationSystem(animationUnit, animationType, positionComponent)
+    var animationSystem: AnimationSystem = AnimationSystem(animationUnit, animationType, positionComponent, sizeComponent)
     var position : PositionComponent = positionComponent
-    lateinit var batch: SpriteBatch
-
-    init {
-        animationSystem.setSize(width, height)
-    }
 
     fun draw() {
         animationSystem.draw()
@@ -31,8 +26,8 @@ abstract class GameEntity(
     }
 
     fun setSize(width: Float, height: Float) {
-        this.width = width
-        this.height = height
+        sizeComponent.width = width
+        sizeComponent.height = height
     }
 
     fun setPosition(posX: Float, posY: Float) {

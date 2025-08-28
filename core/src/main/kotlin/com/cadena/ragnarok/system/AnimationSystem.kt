@@ -32,6 +32,11 @@ class AnimationSystem(
         this.batch = batch
     }
 
+    fun updateAnimationType(animationType: AnimationType){
+        this.type = animationType
+        animation = Animation(1 / 8f, atlas.findRegions("${unit.toString()}/${type.toString()}"), PlayMode.LOOP)
+    }
+
     fun setPosition(posX: Float, posY: Float) {
         position.posX = posX
         position.posY = posY

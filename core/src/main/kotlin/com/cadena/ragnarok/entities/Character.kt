@@ -5,7 +5,7 @@ import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
 import com.cadena.ragnarok.component.SizeComponent
 
-class Character(
+open class Character(
     animationUnit: AnimationUnit,
     animationType: AnimationType,
     positionComponent: PositionComponent = PositionComponent(0f, 0f),

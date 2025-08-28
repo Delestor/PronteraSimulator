@@ -15,6 +15,7 @@ import com.cadena.ragnarok.component.SizeComponent
 import com.cadena.ragnarok.entities.Character
 import com.cadena.ragnarok.entities.Enemy
 import com.cadena.ragnarok.entities.GameEntity
+import com.cadena.ragnarok.entities.PlayableCharacter
 import com.cadena.ragnarok.system.AnimationSystem
 
 class GameScreen(var game: Main) : Screen {
@@ -23,30 +24,14 @@ class GameScreen(var game: Main) : Screen {
     val font = game.font
     val viewport = game.viewport
 
-    lateinit var novice_male : Sprite
-    lateinit var poring : Sprite
-    lateinit var atlas: TextureAtlas
-
-    lateinit var poringEntity: GameEntity
-    lateinit var noviceEntity: GameEntity
+    var poringEntity: Enemy
+    var noviceEntity: PlayableCharacter
 
     init {
-        atlas = TextureAtlas("graphics/ragnarokObjects.atlas")
-        novice_male = Sprite(atlas.findRegion("novice_male/idle"))
-        novice_male.setSize(1f, 1.5f)
-        novice_male.setPosition(0f,0f)
-
-        poring = Sprite(atlas.findRegion("poring/idle"))
-        poring.setSize(1.3f, 1f)
-        poring.setPosition(14f,0f)
-
-        //animatePoring = AnimationSystem(AnimationUnit.poring, AnimationType.idle)
-        //animateNovie = AnimationSystem(AnimationUnit.novice_male, AnimationType.walk_down)
-
         poringEntity = Enemy(AnimationUnit.poring, AnimationType.idle, PositionComponent(1f, 1f), SizeComponent(1f, 1f))
         poringEntity.setSpriteBatch(batch)
 
-        noviceEntity = Character(AnimationUnit.novice_male, AnimationType.walk_down, PositionComponent(1f, 3f), SizeComponent(1f, 1.5f))
+        noviceEntity = PlayableCharacter(AnimationUnit.novice_male, AnimationType.walk_down, PositionComponent(5f, 5f), SizeComponent(1f, 1.5f))
         noviceEntity.setSpriteBatch(batch)
 
     }
@@ -59,28 +44,10 @@ class GameScreen(var game: Main) : Screen {
 
     private fun logic() {
 
-
-
     }
 
     private fun input(delta: Float) {
-        val speed = 10f
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            //novice_male.translateX(+speed*delta)
-            noviceEntity.updatePosition(+speed*delta, 0f)
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            //novice_male.translateX(-speed*delta)
-            noviceEntity.updatePosition(-speed*delta, 0f)
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            //novice_male.translateY(+speed*delta)
-            noviceEntity.updatePosition(0f, +speed*delta)
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            //novice_male.translateY(-speed*delta)
-            noviceEntity.updatePosition(0f, -speed*delta)
-        }
+        noviceEntity.input(delta)
     }
 
     private fun draw() {
@@ -114,7 +81,7 @@ class GameScreen(var game: Main) : Screen {
 
     override fun dispose() {
         batch.dispose()
-        atlas.dispose()
+        //atlas.dispose()
     }
 
 }

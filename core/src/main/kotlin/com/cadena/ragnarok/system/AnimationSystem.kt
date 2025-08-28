@@ -32,7 +32,7 @@ class AnimationSystem(
         this.batch = batch
     }
 
-    fun updateAnimationType(animationType: AnimationType){
+    fun updateAnimationType(animationType: AnimationType) {
         this.type = animationType
         animation = Animation(1 / 8f, atlas.findRegions("${unit.toString()}/${type.toString()}"), PlayMode.LOOP)
     }

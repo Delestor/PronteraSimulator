@@ -17,29 +17,29 @@ class PlayableCharacter(
 
     val playerInputSystem: PlayerInputSystem = PlayerInputSystem()
 
-    fun input(delta: Float){
+    fun input(delta: Float) {
         val speed = 1f
 
         this.animationSystem.updateAnimationType(AnimationType.idle)
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             //novice_male.translateX(+speed*delta)
-            this.updatePosition(+speed*delta, 0f)
+            this.updatePosition(+speed * delta, 0f)
             //this.animationSystem.updateAnimationType(AnimationType.walk_rigt)
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             //novice_male.translateX(-speed*delta)
-            this.updatePosition(-speed*delta, 0f)
+            this.updatePosition(-speed * delta, 0f)
             this.animationSystem.updateAnimationType(AnimationType.walk_left)
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             //novice_male.translateY(+speed*delta)
-            this.updatePosition(0f, +speed*delta)
+            this.updatePosition(0f, +speed * delta)
             //this.animationSystem.updateAnimationType(AnimationType.walk_up)
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             //novice_male.translateY(-speed*delta)
-            this.updatePosition(0f, -speed*delta)
+            this.updatePosition(0f, -speed * delta)
             this.animationSystem.updateAnimationType(AnimationType.walk_down)
         }
 

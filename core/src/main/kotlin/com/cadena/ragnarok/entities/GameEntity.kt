@@ -14,8 +14,9 @@ abstract class GameEntity(
     private var sizeComponent: SizeComponent
 ) {
 
-    var animationSystem: AnimationSystem = AnimationSystem(animationUnit, animationType, positionComponent, sizeComponent)
-    var position : PositionComponent = positionComponent
+    var animationSystem: AnimationSystem =
+        AnimationSystem(animationUnit, animationType, positionComponent, sizeComponent)
+    var position: PositionComponent = positionComponent
 
     fun draw() {
         animationSystem.draw()

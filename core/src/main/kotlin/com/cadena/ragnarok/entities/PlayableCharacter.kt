@@ -18,7 +18,7 @@ class PlayableCharacter(
     val playerInputSystem: PlayerInputSystem = PlayerInputSystem()
 
     fun input(delta: Float) {
-        val speed = 1f
+        val speed = 4f
 
         this.animationSystem.updateAnimationType(AnimationType.idle)
 

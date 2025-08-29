@@ -1,14 +1,15 @@
 package com.cadena.ragnarok.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.maps.tiled.AtlasTmxMapLoader
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.ScreenUtils
 import com.cadena.ragnarok.Main
 import com.cadena.ragnarok.component.AnimationType
@@ -63,6 +64,7 @@ class GameScreen(var game: Main) : Screen {
         // Configurar la cámara
         camera = OrthographicCamera()
         camera.setToOrtho(false, 800f, 480f) // Ajusta al tamaño de tu juego
+        //camera.setToOrtho(false, viewport.minWorldWidth, viewport.minWorldHeight) // Ajusta al tamaño de tu juego
         camera.update()
 
     }
@@ -82,6 +84,31 @@ class GameScreen(var game: Main) : Screen {
 
     private fun input(delta: Float) {
         noviceEntity.input(delta)
+
+        zoomCamera()
+    }
+
+    private fun zoomCamera() {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            camera.zoom += 0.02f
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+            camera.zoom -= 0.02f
+        }
+
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 100 / 16f)
+
+        val effectiveViewportWidth: Float = 16f * camera.zoom
+        val effectiveViewportHeight: Float = 9f * camera.zoom
+
+        camera.position.x = noviceEntity.position.posX
+            //MathUtils.clamp(noviceEntity.position.posX, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f)
+        camera.position.y = noviceEntity.position.posY
+            //MathUtils.clamp(noviceEntity.position.posY, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f)
+
+        poringList.forEach { poring ->
+            poring.setSize(1f/camera.zoom, 1f/camera.zoom)
+        }
     }
 
     private fun draw() {

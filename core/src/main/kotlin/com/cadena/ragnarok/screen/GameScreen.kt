@@ -24,6 +24,7 @@ class GameScreen(var game: Main) : Screen {
     val batch = game.batch
     val font = game.font
     val viewport = game.viewport
+    val camera = game.camera
 
     var poringEntity: Enemy
     var poringList = mutableListOf<Enemy>()
@@ -31,7 +32,7 @@ class GameScreen(var game: Main) : Screen {
 
     private lateinit var map: TiledMap
     private lateinit var renderer: OrthogonalTiledMapRenderer
-    private lateinit var camera: OrthographicCamera
+
 
     init {
 
@@ -61,11 +62,6 @@ class GameScreen(var game: Main) : Screen {
         // Crear el renderer para renderizar el mapa
         renderer = OrthogonalTiledMapRenderer(map)
 
-        // Configurar la cámara
-        camera = OrthographicCamera()
-        camera.setToOrtho(false, 800f, 480f) // Ajusta al tamaño de tu juego
-        //camera.setToOrtho(false, viewport.minWorldWidth, viewport.minWorldHeight) // Ajusta al tamaño de tu juego
-        camera.update()
 
     }
 
@@ -101,20 +97,17 @@ class GameScreen(var game: Main) : Screen {
         val effectiveViewportWidth: Float = 16f * camera.zoom
         val effectiveViewportHeight: Float = 9f * camera.zoom
 
-        camera.position.x = noviceEntity.position.posX
-            //MathUtils.clamp(noviceEntity.position.posX, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f)
-        camera.position.y = noviceEntity.position.posY
-            //MathUtils.clamp(noviceEntity.position.posY, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f)
 
-        poringList.forEach { poring ->
-            poring.setSize(1f/camera.zoom, 1f/camera.zoom)
-        }
+        camera.position.x =
+            MathUtils.clamp(noviceEntity.position.posX, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f)
+        camera.position.y =
+            MathUtils.clamp(noviceEntity.position.posY, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f)
     }
 
     private fun draw() {
         ScreenUtils.clear(Color.DARK_GRAY)
         viewport.apply()
-        batch.setProjectionMatrix(viewport.camera.combined)//Esta instrucción se ha de llamar después del viewport.apply()
+        batch.setProjectionMatrix(camera.combined)//Esta instrucción se ha de llamar después del viewport.apply()
 
         drawMap()
 

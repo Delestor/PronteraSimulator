@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.cadena.ragnarok.screen.GameScreen
 
@@ -19,7 +20,7 @@ class Main : Game() {
         // Configurar la cámara
         camera = OrthographicCamera()
 
-        viewport = ExtendViewport(16f, 9f, camera)
+        viewport = ExtendViewport(16f, 9f)
         batch = SpriteBatch()
 
         font = BitmapFont()
@@ -27,6 +28,8 @@ class Main : Game() {
         font.data.scale(viewport.worldHeight / Gdx.graphics.height)
 
         camera.setToOrtho(false, viewport.minWorldWidth, viewport.minWorldHeight) // Ajusta al tamaño de tu juego
+
+        camera.update()
 
         this.screen = GameScreen(this)
     }

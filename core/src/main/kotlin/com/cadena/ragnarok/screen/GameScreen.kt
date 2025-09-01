@@ -26,6 +26,8 @@ class GameScreen(var game: Main) : Screen {
     val viewport = game.viewport
     val camera = game.camera
 
+    var UNIT_SCALE = 1f/32f
+
     var poringEntity: Enemy
     var poringList = mutableListOf<Enemy>()
     var noviceEntity: PlayableCharacter
@@ -60,7 +62,7 @@ class GameScreen(var game: Main) : Screen {
         map = TmxMapLoader().load("map/map1.tmx")
 
         // Crear el renderer para renderizar el mapa
-        renderer = OrthogonalTiledMapRenderer(map)
+        renderer = OrthogonalTiledMapRenderer(map, UNIT_SCALE)
 
 
     }

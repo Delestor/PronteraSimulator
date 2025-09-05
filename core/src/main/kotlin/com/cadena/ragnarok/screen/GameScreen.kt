@@ -94,7 +94,7 @@ class GameScreen(var game: Main) : Screen {
             camera.zoom -= 0.02f
         }
 
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 100 / 16f)
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 100 / 32f)
 
         val effectiveViewportWidth: Float = 16f * camera.zoom
         val effectiveViewportHeight: Float = 9f * camera.zoom

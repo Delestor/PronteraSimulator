@@ -4,12 +4,10 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.ScreenUtils
 import com.cadena.ragnarok.Main
 import com.cadena.ragnarok.component.AnimationType
@@ -17,10 +15,12 @@ import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
 import com.cadena.ragnarok.component.SizeComponent
 import com.cadena.ragnarok.entities.Enemy
+import com.cadena.ragnarok.entities.OnlineCharacter
 import com.cadena.ragnarok.entities.PlayableCharacter
 
 class GameScreen(var game: Main) : Screen {
 
+    private lateinit var onlineNovice: OnlineCharacter
     val batch = game.batch
     val font = game.font
     val viewport = game.viewport
@@ -57,6 +57,15 @@ class GameScreen(var game: Main) : Screen {
             SizeComponent(1f, 1.5f)
         )
         noviceEntity.setSpriteBatch(batch)
+
+        onlineNovice = OnlineCharacter(
+            AnimationUnit.novice_male,
+            AnimationType.walk_down,
+            PositionComponent(3f, 3f),
+            SizeComponent(1f, 1.5f)
+        )
+        onlineNovice.setSpriteBatch(batch)
+
 
         // Cargar el mapa TMX usando AtlasTmxMapLoader (para usar el atlas)
         map = TmxMapLoader().load("map/map1.tmx")
@@ -120,6 +129,8 @@ class GameScreen(var game: Main) : Screen {
         }
         poringEntity.draw()
         noviceEntity.draw()
+        onlineNovice.updatePositionFromServer()
+        //onlineNovice.draw()
 
         batch.end()
     }

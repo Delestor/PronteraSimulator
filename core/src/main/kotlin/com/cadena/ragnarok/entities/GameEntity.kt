@@ -36,6 +36,10 @@ abstract class GameEntity(
         position.posY = posY
     }
 
+    /*fun getPosition(): PositionComponent {
+        return position
+    }*/
+
     fun updatePosition(posX: Float, posY: Float) {
         animationSystem.updatePosition(posX, posY)
     }

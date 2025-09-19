@@ -30,7 +30,7 @@ class GameScreen(var game: Main) : Screen {
 
     var poringEntity: Enemy
     var poringList = mutableListOf<Enemy>()
-    var noviceEntity: PlayableCharacter
+    var novicePlayableEntity: PlayableCharacter
 
     private lateinit var map: TiledMap
     private lateinit var renderer: OrthogonalTiledMapRenderer
@@ -50,13 +50,13 @@ class GameScreen(var game: Main) : Screen {
         poringEntity = Enemy(AnimationUnit.poring, AnimationType.idle, PositionComponent(1f, 1f), SizeComponent(1f, 1f))
         poringEntity.setSpriteBatch(batch)
 
-        noviceEntity = PlayableCharacter(
+        novicePlayableEntity = PlayableCharacter(
             AnimationUnit.novice_male,
             AnimationType.walk_down,
             PositionComponent(5f, 5f),
             SizeComponent(1f, 1.5f)
         )
-        noviceEntity.setSpriteBatch(batch)
+        novicePlayableEntity.setSpriteBatch(batch)
 
         onlineNovice = OnlineCharacter(
             AnimationUnit.novice_male,
@@ -72,6 +72,9 @@ class GameScreen(var game: Main) : Screen {
 
         // Crear el renderer para renderizar el mapa
         renderer = OrthogonalTiledMapRenderer(map, UNIT_SCALE)
+
+        //Enviamos posiciones del Player
+        novicePlayableEntity.sendPosition()
 
 
     }
@@ -90,7 +93,7 @@ class GameScreen(var game: Main) : Screen {
     }
 
     private fun input(delta: Float) {
-        noviceEntity.input(delta)
+        novicePlayableEntity.input(delta)
 
         zoomCamera()
     }
@@ -110,9 +113,9 @@ class GameScreen(var game: Main) : Screen {
 
 
         camera.position.x =
-            MathUtils.clamp(noviceEntity.position.posX, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f)
+            MathUtils.clamp(novicePlayableEntity.position.posX, effectiveViewportWidth / 2f, 100 - effectiveViewportWidth / 2f)
         camera.position.y =
-            MathUtils.clamp(noviceEntity.position.posY, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f)
+            MathUtils.clamp(novicePlayableEntity.position.posY, effectiveViewportHeight / 2f, 100 - effectiveViewportHeight / 2f)
     }
 
     private fun draw() {
@@ -128,7 +131,7 @@ class GameScreen(var game: Main) : Screen {
             poring.draw()
         }
         poringEntity.draw()
-        noviceEntity.draw()
+        novicePlayableEntity.draw()
         onlineNovice.updatePositionFromServer()
         //onlineNovice.draw()
 

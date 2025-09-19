@@ -10,6 +10,12 @@ import kotlin.random.Random
 
 class ConnectionSocket : Socket() {
 
+    lateinit var client : Socket
+
+    init {
+        client = Socket("localhost", 9999)
+    }
+
     suspend fun sendMessageToServer(titulo: String) {
         val hints = SocketHints()
         //hints.connectTimeout = 4000
@@ -36,7 +42,6 @@ class ConnectionSocket : Socket() {
     }
 
     fun obtainPosition(): PositionComponent {
-        val client = Socket("localhost", 9999)
         val newPosition = client.obtainPosition()
         client.close()
         return newPosition
@@ -50,6 +55,33 @@ class ConnectionSocket : Socket() {
         println("Actualizamos posicion y: ${posY}")
 
         return PositionComponent(posX, posY)
+    }
+
+    fun sendPosition(positionComponent: PositionComponent){
+        client.sendPosition(positionComponent)
+    }
+
+    private fun Socket.sendPosition(positionComponent: PositionComponent){
+        val output = PrintWriter(this.outputStream, true)
+        output.println("${positionComponent.posX} ${positionComponent.posY}")
+    }
+
+    fun sendPositionTest(positionComponent: PositionComponent){
+        //client.sendPosition(positionComponent)
+        //client.close()
+        client.use { socket ->
+            //while (true) {
+            println("Conectado al servidor localhost:$port")
+            val writer = PrintWriter(socket.getOutputStream(), true)
+
+            // Enviar un mensaje de ejemplo
+            val message = "¡Hola desde el cliente!"
+            writer.println(message)
+            println("Enviado al servidor: $message")
+            Thread.sleep(1000)
+            //}
+            // Cerrar automáticamente al salir del bloque use
+        }
     }
 
 }

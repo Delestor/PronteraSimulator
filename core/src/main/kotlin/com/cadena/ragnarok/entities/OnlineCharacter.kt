@@ -21,7 +21,7 @@ class OnlineCharacter(
     private var job : Job? = null
 
     fun updatePositionFromServer(){
-        scope.obtainPositionFromServer()
+        //scope.obtainPositionFromServer()
         draw()
     }
 

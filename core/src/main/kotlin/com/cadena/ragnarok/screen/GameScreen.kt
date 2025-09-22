@@ -75,6 +75,7 @@ class GameScreen(var game: Main) : Screen {
 
         //Enviamos posiciones del Player
         novicePlayableEntity.sendPosition()
+        onlineNovice.updatePositionFromServer()
 
 
     }
@@ -132,8 +133,8 @@ class GameScreen(var game: Main) : Screen {
         }
         poringEntity.draw()
         novicePlayableEntity.draw()
-        onlineNovice.updatePositionFromServer()
-        //onlineNovice.draw()
+        //onlineNovice.updatePositionFromServer()
+        onlineNovice.draw()
 
         batch.end()
     }

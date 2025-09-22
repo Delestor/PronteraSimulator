@@ -11,6 +11,7 @@ import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
 import com.cadena.ragnarok.component.SizeComponent
 import com.cadena.ragnarok.connection.ConnectionSocket
+import com.cadena.ragnarok.connection.GlobalConnection
 import com.cadena.ragnarok.system.PlayerInputSystem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,7 @@ class PlayableCharacter(
     val playerInputSystem: PlayerInputSystem = PlayerInputSystem()
     private var job : Job? = null
     private val scope = CoroutineScope(Dispatchers.IO)
-    val connection : ConnectionSocket = ConnectionSocket()
+    val connection : ConnectionSocket = GlobalConnection.connection
     var clientInit : Boolean = false
 
     fun input(delta: Float) {
@@ -71,9 +72,9 @@ class PlayableCharacter(
         job = launch{
             while (true){
                 try{
-                    println("Sending position...")
+                    //println("Sending position...")
                     connection.sendPosition(position)
-                    delay(1000)
+                    delay(10)
                 }catch (e: Exception){
                     println("Connection failed: ${e.message}")
                     delay(5000) // Reintenta después de 5 segundos

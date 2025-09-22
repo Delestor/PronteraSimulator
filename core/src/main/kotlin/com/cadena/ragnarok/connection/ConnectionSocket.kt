@@ -43,7 +43,6 @@ class ConnectionSocket : Socket() {
 
     fun obtainPosition(): PositionComponent {
         val newPosition = client.obtainPosition()
-        client.close()
         return newPosition
     }
 

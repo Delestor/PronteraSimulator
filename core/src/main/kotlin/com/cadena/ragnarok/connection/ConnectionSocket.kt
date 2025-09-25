@@ -57,12 +57,22 @@ class ConnectionSocket : Socket() {
     }
 
     fun sendPosition(positionComponent: PositionComponent){
-        client.sendPosition(positionComponent)
+        if (positionComponent.isPositionUpdated) {
+            client.sendPosition(positionComponent)
+            positionComponent.isPositionUpdated = false
+        }
+            //client.noSendPosition()
     }
 
     private fun Socket.sendPosition(positionComponent: PositionComponent){
         val output = PrintWriter(this.outputStream, true)
+        //output.println("updatePosition")
         output.println("${positionComponent.posX} ${positionComponent.posY}")
+    }
+
+    private fun Socket.noSendPosition(){
+        val output = PrintWriter(this.outputStream, true)
+        output.println("noUpdatedPosition")
     }
 
     fun sendPositionTest(positionComponent: PositionComponent){

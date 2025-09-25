@@ -45,6 +45,7 @@ class AnimationSystem(
     fun updatePosition(posX: Float, posY: Float) {
         position.posX += posX
         position.posY += posY
+        position.isPositionUpdated=true
     }
 
     fun setSize(width: Float, height: Float) {

@@ -73,7 +73,7 @@ class PlayableCharacter(
             while (true){
                 try{
                     //println("Sending position...")
-                    connection.sendPosition(position)
+                    connection.sendPosition(position, GlobalConnection.clientId)
                     delay(10)
                 }catch (e: Exception){
                     println("Connection failed: ${e.message}")

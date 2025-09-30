@@ -12,7 +12,8 @@ class OnlineCharacter(
     animationUnit: AnimationUnit,
     animationType: AnimationType,
     positionComponent: PositionComponent = PositionComponent(0f, 0f),
-    sizeComponent: SizeComponent = SizeComponent(1f, 1f)
+    sizeComponent: SizeComponent = SizeComponent(1f, 1f),
+    clientId: Int
 ): Character(animationUnit, animationType, positionComponent, sizeComponent) {
 
     private val scope = CoroutineScope(Dispatchers.IO)
@@ -25,7 +26,7 @@ class OnlineCharacter(
     }
 
     private fun CoroutineScope.obtainPositionFromServer(): PositionComponent {
-
+        //TODO: en principio se va a borrar, se gestiona desde el OnlineCharacterConnectionHandler
         var newPosition = position
 
         job = launch{

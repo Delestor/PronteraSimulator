@@ -14,9 +14,12 @@ import com.cadena.ragnarok.component.AnimationType
 import com.cadena.ragnarok.component.AnimationUnit
 import com.cadena.ragnarok.component.PositionComponent
 import com.cadena.ragnarok.component.SizeComponent
+import com.cadena.ragnarok.connection.GlobalOnlineCharacters
+import com.cadena.ragnarok.connection.OnlineCharacterConnectionHandler
 import com.cadena.ragnarok.entities.Enemy
 import com.cadena.ragnarok.entities.OnlineCharacter
 import com.cadena.ragnarok.entities.PlayableCharacter
+import kotlin.collections.mutableListOf
 
 class GameScreen(var game: Main) : Screen {
 
@@ -34,6 +37,9 @@ class GameScreen(var game: Main) : Screen {
 
     private lateinit var map: TiledMap
     private lateinit var renderer: OrthogonalTiledMapRenderer
+
+    var onlineCharacterConnectionHandler : OnlineCharacterConnectionHandler
+    var onlineCharacterList = GlobalOnlineCharacters.onlineCharacterList
 
 
     init {
@@ -58,13 +64,14 @@ class GameScreen(var game: Main) : Screen {
         )
         novicePlayableEntity.setSpriteBatch(batch)
 
-        onlineNovice = OnlineCharacter(
+        /*onlineNovice = OnlineCharacter(
             AnimationUnit.novice_male,
             AnimationType.walk_down,
             PositionComponent(3f, 3f),
-            SizeComponent(1f, 1.5f)
+            SizeComponent(1f, 1.5f),
+            0
         )
-        onlineNovice.setSpriteBatch(batch)
+        onlineNovice.setSpriteBatch(batch)*/
 
 
         // Cargar el mapa TMX usando AtlasTmxMapLoader (para usar el atlas)
@@ -75,8 +82,9 @@ class GameScreen(var game: Main) : Screen {
 
         //Enviamos posiciones del Player
         novicePlayableEntity.sendPosition()
-        onlineNovice.updatePositionFromServer()
-
+        //onlineNovice.updatePositionFromServer()
+        onlineCharacterConnectionHandler = OnlineCharacterConnectionHandler(batch)
+        onlineCharacterConnectionHandler.run()
 
     }
 
@@ -134,7 +142,10 @@ class GameScreen(var game: Main) : Screen {
         poringEntity.draw()
         novicePlayableEntity.draw()
         //onlineNovice.updatePositionFromServer()
-        onlineNovice.draw()
+        //onlineNovice.draw()
+        for(onlineNovice in onlineCharacterList){
+            onlineNovice.draw()
+        }
 
         batch.end()
     }

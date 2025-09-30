@@ -58,21 +58,10 @@ class OnlineCharacterConnectionHandler(var batch: SpriteBatch) {
 
         if(GlobalConnection.clientId == -1){
             //inicializamos la variable clientId que nos asigna el servidor.
-            println("GlobalConnection.clientId antes: ${GlobalConnection.clientId}")
             GlobalConnection.clientId = msg.clientId
-            println("GlobalConnection.clientId despues: ${GlobalConnection.clientId}")
         }
-            val clientId = msg.clientId
-
-            val onlineNovice = OnlineCharacter(
-                AnimationUnit.novice_male,
-                AnimationType.walk_down,
-                PositionComponent(3f, 3f),
-                SizeComponent(1f, 1.5f),
-                clientId
-            )
-            onlineNovice.setSpriteBatch(batch)
-            onlineCharacterList.add(clientId, onlineNovice)
+        val clientId = msg.clientId
+        GlobalOnlineCharacters.pendingOnlineChartersList.add(clientId)
 
     }
 }

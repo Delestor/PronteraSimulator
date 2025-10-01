@@ -43,7 +43,10 @@ class OnlineCharacterConnectionHandler(var batch: SpriteBatch) {
 
     private fun updatePositionFromServer(msg: ClientPositionComponent) {
         val clientId = msg.clientId
-        if(onlineCharacterList.size > clientId && clientId != GlobalConnection.clientId) {
+        val onlineNovice = onlineCharacterList.getOrNull(clientId)
+        if(onlineNovice == null){
+            addNewOnlineCharacter(ClientIdComponent(clientId))
+        }else if(clientId != GlobalConnection.clientId) {
             val newPosition = PositionComponent(msg.posX, msg.posY)
             val onlineNovice = onlineCharacterList[clientId]
 

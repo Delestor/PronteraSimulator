@@ -144,7 +144,7 @@ class GameScreen(var game: Main) : Screen {
         //onlineNovice.updatePositionFromServer()
         //onlineNovice.draw()
         //Aquí haremos una función que compruebe si la lista de novatos está actualizada o hay que crear uno nuevo.
-        drawOnlineNoviceList()
+        checkIfThereAreNewOnlineCharacters()
 
         for(onlineNovice in onlineCharacterList){
             onlineNovice.draw()
@@ -153,23 +153,27 @@ class GameScreen(var game: Main) : Screen {
         batch.end()
     }
 
-    private fun drawOnlineNoviceList() {
+    private fun checkIfThereAreNewOnlineCharacters() {
 
-        for(clientId in GlobalOnlineCharacters.pendingOnlineChartersList){
-            val onlineNovice = OnlineCharacter(
-                AnimationUnit.novice_male,
-                AnimationType.walk_down,
-                PositionComponent(1f+onlineCharacterList.size, 1f+onlineCharacterList.size),
-                SizeComponent(1f, 1.5f),
-                clientId
-            )
-            onlineNovice.setSpriteBatch(batch)
+        try {
+            if(GlobalOnlineCharacters.pendingOnlineChartersList.isNotEmpty()){
+                for(clientId in GlobalOnlineCharacters.pendingOnlineChartersList){
+                    val onlineNovice = OnlineCharacter(
+                        AnimationUnit.novice_male,
+                        AnimationType.walk_down,
+                        PositionComponent(1f+onlineCharacterList.size, 1f+onlineCharacterList.size),
+                        SizeComponent(1f, 1.5f),
+                        clientId
+                    )
+                    onlineNovice.setSpriteBatch(batch)
 
-            onlineCharacterList.add(onlineNovice)
+                    onlineCharacterList.add(onlineNovice)
+                }
 
-
+            }
+        }catch (e : Exception){
+            println("Concurrency GlobalOnlineCharacters.pendingOnlineChartersList ")
         }
-
         GlobalOnlineCharacters.pendingOnlineChartersList = mutableListOf<Int>()
 
     }
